@@ -12,6 +12,8 @@ from pibooth import pictures, fonts
 from pibooth.pictures import background
 from pibooth.utils import LOGGER
 from pibooth.pictures import sizing
+import qrcode
+
 
 
 class PtbWindow(object):
@@ -191,13 +193,16 @@ class PtbWindow(object):
         """Show introduction view.
         """
         self._picture_number = (0, self._picture_number[1])
+        img = qrcode.make("https://eyeseetea.com")
         if with_print and pil_image:
-            self._update_background(background.IntroWithPrintBackground(self.show_arrows))
+            self._update_background(background.IntroWithPrintBackground(img))
         else:
-            self._update_background(background.IntroBackground(self.show_arrows))
+            self._update_background(background.IntroBackground(img))
 
         if pil_image:
-            self._update_foreground(pil_image, self.RIGHT)
+            self._update_foreground(img, self.RIGHT)
+
+        pygame.display
         pygame.display.update()
 
     def show_choice(self, choices, selected=None):
